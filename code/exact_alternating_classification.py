@@ -215,7 +215,7 @@ def main():
             'qualifying_patterns':qual,'result':'unique qualifying chirotope' if len(qual)==1 else 'unexpected',
             'pair_order':['01','02','03','12','13','23'],
             'method':'48 exact rank-two chirotopes; refined L and K magnitude walls; exact Gordan circuit completeness; rational chamber witnesses; exact rational winding spectra',
-            'patterns':OUT,'elapsed_seconds':time.time()-t0}
+            'patterns':OUT}
     raw=json.dumps(report,indent=2).encode();out_path=Path(__file__).resolve().parents[1]/'results'/'exact_alternating_classification.json'
     out_path.parent.mkdir(parents=True,exist_ok=True)
     out_path.write_bytes(raw)
