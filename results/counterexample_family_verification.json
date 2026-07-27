@@ -1,0 +1,24 @@
+{
+  "verdict": "VERIFIED",
+  "parameter": "a3=(2,t)",
+  "interval": "1/10 < t < 2/15",
+  "worst_endpoint_age_power_ratio": "16959454617563682698054005840792102521632243876732771232150341713141856731878591823809299439924812705151100914349041188035543/165293450380440464293697150925971132864534862148943891667580769372170514652192896149144657301604008474950805747662848000000",
+  "target": "(-11/2,1/10)",
+  "computed_target_edge_incidence_parameters": [
+    {
+      "edge": 2,
+      "t": "2/15"
+    },
+    {
+      "edge": 3,
+      "t": "1/10"
+    },
+    {
+      "edge": 5,
+      "t": "83/80"
+    }
+  ],
+  "winding_at_t_1_over_8": 2,
+  "winding_on_interval": 2,
+  "conclusion": "Every parameter in the interval is an everywhere-positive-Jacobian noninjective logistic four-ridge map."
+}

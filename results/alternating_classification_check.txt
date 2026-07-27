@@ -1,0 +1,4 @@
+VERDICT: PASS
+patterns: 48
+chambers: 2448
+unique qualifying pattern: + - + + - +

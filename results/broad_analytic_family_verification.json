@@ -1,0 +1,26 @@
+{
+  "verdict": "VERIFIED",
+  "family": {
+    "A": "[[1,0,-8,u],[0,1,-1,t]]",
+    "B": "[[1,0],[0,1],[-1/5,5/4],[-1/2,9/5]]",
+    "u_interval": "199/100 < u < 51/25",
+    "t_interval": "3/25 < t < 13/100",
+    "delta1": "c1-(4/25)c0-(4/5)c2",
+    "delta2": "c2-(53/100)c1-(2/5)c3",
+    "bias_conditions": "|delta1| < 3/40 and |delta2| < 1/20"
+  },
+  "exact_checks": {
+    "group1_margin": "208031871 > 204800000",
+    "group2_margin_digits": {
+      "lhs_digits": 408,
+      "rhs_digits": 408,
+      "difference_positive": true
+    },
+    "winding_chamber": [
+      "t>1/10",
+      "u>15t",
+      "u<5/2"
+    ]
+  },
+  "conclusion": "Every parameter satisfying the displayed inequalities is a positive-Jacobian noninjective logistic four-ridge map with winding two at y=(-11/2,1/10)."
+}

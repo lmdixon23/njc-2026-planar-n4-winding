@@ -1,0 +1,56 @@
+{
+  "status": "nonrigorous stress test passed",
+  "blocks": [
+    {
+      "radius": 5,
+      "samples": 200000,
+      "minimum_normalized_margin": 0.15730544957232426,
+      "log_J_at_margin_minimizer": -2.946958965661116,
+      "point": [
+        -0.01306865209079966,
+        -0.005888369748210387
+      ]
+    },
+    {
+      "radius": 20,
+      "samples": 200000,
+      "minimum_normalized_margin": 0.15742080637532324,
+      "log_J_at_margin_minimizer": -2.9473073622096893,
+      "point": [
+        0.010000578433121632,
+        -0.040435751122171126
+      ]
+    },
+    {
+      "radius": 100,
+      "samples": 200000,
+      "minimum_normalized_margin": 0.15804104930018953,
+      "log_J_at_margin_minimizer": -2.9558675136540327,
+      "point": [
+        -0.25105259098710064,
+        -0.13715430651959082
+      ]
+    },
+    {
+      "radius": 500,
+      "samples": 200000,
+      "minimum_normalized_margin": 0.16238614476598978,
+      "log_J_at_margin_minimizer": -2.9782705049150384,
+      "point": [
+        -0.6374693524492159,
+        -0.25590279787081727
+      ]
+    },
+    {
+      "radius": 2000,
+      "samples": 200000,
+      "minimum_normalized_margin": 0.21951618839147696,
+      "log_J_at_margin_minimizer": -5.758033983814814,
+      "point": [
+        -7.042215565372089,
+        -2.97222668068207
+      ]
+    }
+  ],
+  "warning": "Floating point sampling is corroboration only. Log scaling prevents tail underflow; the analytic AGE proof is load bearing."
+}

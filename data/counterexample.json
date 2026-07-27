@@ -1,0 +1,107 @@
+{
+  "schema": "njc-planar-n4-counterexample-v1",
+  "activation": "logistic sigmoid sigma(t)=1/(1+exp(-t))",
+  "A_rows": [
+    [
+      "1",
+      "0",
+      "-8",
+      "2"
+    ],
+    [
+      "0",
+      "1",
+      "-1",
+      "1/8"
+    ]
+  ],
+  "B_rows": [
+    [
+      "1",
+      "0"
+    ],
+    [
+      "0",
+      "1"
+    ],
+    [
+      "-1/5",
+      "5/4"
+    ],
+    [
+      "-1/2",
+      "9/5"
+    ]
+  ],
+  "c": [
+    "0",
+    "0",
+    "0",
+    "0"
+  ],
+  "target_y": [
+    "-11/2",
+    "1/10"
+  ],
+  "output_minors_pair_order_01_02_03_12_13_23": [
+    "1",
+    "-1",
+    "1/8",
+    "8",
+    "-2",
+    "1"
+  ],
+  "row_minors_pair_order_01_02_03_12_13_23": [
+    "1",
+    "5/4",
+    "9/5",
+    "1/5",
+    "1/2",
+    "53/200"
+  ],
+  "mixed_coefficients_pair_order_01_02_03_12_13_23": [
+    "1",
+    "-5/4",
+    "9/40",
+    "8/5",
+    "-1",
+    "53/200"
+  ],
+  "asymptotic_vertices": [
+    [
+      "1",
+      "0"
+    ],
+    [
+      "1",
+      "1"
+    ],
+    [
+      "-7",
+      "0"
+    ],
+    [
+      "-5",
+      "1/8"
+    ],
+    [
+      "-6",
+      "1/8"
+    ],
+    [
+      "-6",
+      "-7/8"
+    ],
+    [
+      "2",
+      "1/8"
+    ],
+    [
+      "0",
+      "0"
+    ]
+  ],
+  "winding_at_target": 2,
+  "proof_status": "exact analytic determinant proof plus exact polygon winding; degree-winding theorem imported from the canonical source manuscript",
+  "release_status": "requires independent cold pass before public theorem claim"
+}

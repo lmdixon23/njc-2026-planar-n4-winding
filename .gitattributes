@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.pdf binary
+*.png binary
+
+# Freeze the canonical counterexample bytes. The repository manifest records
+# the file SHA-256, and every report binds to it.
+data/counterexample.json -text

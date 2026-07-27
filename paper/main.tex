@@ -1,0 +1,524 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,array}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb R}
+\newcommand{\wind}{\operatorname{wind}}
+\newcommand{\clinf}{C_{\infty}}
+
+\title{A positive-Jacobian noninjective sigmoid ridge map\\and the sharp hidden-width threshold}
+\author{Logan M. Dixon}
+\date{July 2026\quad Draft for independent cold review}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The Neural Jacobian Conjecture asks whether an everywhere-positive Jacobian determinant forces global injectivity for affine-ridge logistic maps from $\R^n$ to $\R^n$. We give an exact rational counterexample at the lowest width left open by that conjecture, $n=2$, $N=4$. Its determinant is positive everywhere by a two-bridge arithmetic--geometric-exponential decomposition based on exact affine relations among the logits. Its row-ordered asymptotic octagon has winding number two at an explicit rational target, so the planar degree--winding formula gives exactly two preimages. A block construction lifts the example to every $n\ge2$ at width $N=n+2$, and hidden-unit duplication gives every larger width. Combined with the known positive results at widths $N=n$ and $N=n+1$, this gives the sharp hidden-width threshold. We also prove a closed-form two-bridge determinant criterion, an explicit multiparameter counterexample family with nonzero bias freedom, and an extension to every saturating activation whose derivative is an even log-concave density. An exact computer-assisted chamber classification shows that, in the ordered generic four-generator problem, winding multiplicity at least two with nonnegative spectrum forces the alternating sign pattern realized by the counterexample.
+\end{abstract}
+
+\section{Main results}
+The Neural Jacobian Conjecture was formulated by Chen and Jiang~\cite{ChenJiang}.  Let $\sigma(t)=(1+e^{-t})^{-1}$ act componentwise.
+
+\begin{theorem}[Planar four-ridge counterexample]\label{thm:main}
+Set
+\[
+ A=\begin{pmatrix}
+ 1&0&-8&2\\
+ 0&1&-1&1/8
+ \end{pmatrix},\qquad
+ B=\begin{pmatrix}
+ 1&0\\
+ 0&1\\
+ -1/5&5/4\\
+ -1/2&9/5
+ \end{pmatrix}.
+\]
+Then $F(x)=A\sigma(Bx)$ satisfies
+\[
+ \det DF(x)>0\qquad(x\in\R^2),
+\]
+but $F$ is not injective. More precisely, for
+\[
+ y=\left(-\frac{11}{2},\frac{1}{10}\right)
+\]
+one has $\#F^{-1}(y)=2$.
+\end{theorem}
+
+\begin{corollary}[Sharp hidden-width threshold]\label{cor:sharp}
+For every $n\ge2$ and every $N\ge n+2$, there is a width-$N$ affine-ridge logistic map $G:\R^n\to\R^n$ with $\det DG>0$ everywhere that is not injective. Together with the injectivity theorems at $N=n$ and $N=n+1$~\cite[Thm.~3.2]{DixonPolygon}, this is sharp.  Those two widths are settled by a graph-coordinate reduction in which the determinant is affine in a single varying slot; the present counterexample shows the reduction has no analogue at $N=n+2$. For $n=1$, positivity of the derivative implies injectivity at every width.
+\end{corollary}
+
+The proof has two independent components. Sections~\ref{sec:age}--\ref{sec:det} prove pointwise determinant positivity. Section~\ref{sec:winding} computes the asymptotic winding and invokes the planar degree--winding formula from the companion asymptotic-polygon work~\cite{DixonPolygon}.
+
+\section{Bridge AGE inequalities}\label{sec:age}
+The determinant argument applies to a broad derivative class.
+
+\begin{lemma}[Bridge AGE inequality with bias]\label{lem:age}
+Let $\rho(t)=C e^{-\psi(t)}$, where $C>0$ and $\psi:\R\to\R$ is even, convex, nonnegative, and satisfies $\psi(0)=0$. Suppose
+\[
+ z_k=\alpha z_i+\beta z_j+\delta,
+ \qquad
+ a=|\alpha|,\quad b=|\beta|,\quad r=1-a-b\ge0.
+\]
+Choose $w_i,w_j>0$ with
+\[
+ w_i+w_j=1,\qquad w_i\ge a,\qquad w_j\ge b.
+\]
+If $r=0$, additionally assume $\delta=0$. Define
+\[
+ E=\begin{cases}
+ \exp\!\left[-r\psi\!\left(\delta/r\right)\right],&r>0,\\
+ 1,&r=0.
+ \end{cases}
+\]
+If $P,Q,M>0$ and
+\[
+ \left(\frac{P}{w_j}\right)^{w_j}
+ \left(\frac{Q}{w_i}\right)^{w_i}E>M,
+\]
+then
+\[
+ P\rho(z_i)\rho(z_k)+Q\rho(z_j)\rho(z_k)-M\rho(z_i)\rho(z_j)>0.
+\]
+\end{lemma}
+
+\begin{proof}
+After division by $\rho(z_i)\rho(z_j)>0$, weighted AM--GM gives
+\[
+ P\frac{\rho(z_k)}{\rho(z_j)}
+ +Q\frac{\rho(z_k)}{\rho(z_i)}
+ \ge
+ \left(\frac{P}{w_j}\right)^{w_j}
+ \left(\frac{Q}{w_i}\right)^{w_i}
+ \frac{\rho(z_k)}{\rho(z_i)^{w_i}\rho(z_j)^{w_j}}.
+\]
+Evenness and convexity give
+\[
+ \psi(z_k)\le a\psi(z_i)+b\psi(z_j)+r\psi(\delta/r)
+\]
+when $r>0$, with the evident zero-slack form when $r=0$. Since $w_i\ge a$, $w_j\ge b$, and $\psi\ge0$, the derivative ratio is at least $E$. The strict coefficient inequality completes the proof.
+\end{proof}
+
+\begin{theorem}[Closed-form two-bridge criterion]\label{thm:two-bridge}
+Suppose a planar four-ridge determinant has the alternating form
+\[
+\begin{aligned}
+J={}&p_{01}\rho_0\rho_1-n_{02}\rho_0\rho_2+p_{03}\rho_0\rho_3\\
+&+p_{12}\rho_1\rho_2-n_{13}\rho_1\rho_3+p_{23}\rho_2\rho_3,
+\end{aligned}
+\]
+where every displayed magnitude is positive. Suppose
+\[
+ z_1=\alpha_0z_0+\alpha_2z_2+\delta_1,
+ \qquad
+ z_2=\beta_1z_1+\beta_3z_3+\delta_2,
+\]
+and choose admissible weights $u_0+u_2=1$ and $v_1+v_3=1$ as in Lemma~\ref{lem:age}. Let $E_1,E_2$ be the corresponding bias penalties and put
+\[
+ L_1=u_0\left[
+ \frac{n_{02}}
+ {E_1(p_{01}/u_2)^{u_2}}
+ \right]^{1/u_0},
+\]
+\[
+ L_2=v_3\left[
+ \frac{n_{13}}
+ {E_2(p_{23}/v_1)^{v_1}}
+ \right]^{1/v_3}.
+\]
+If
+\[
+ p_{12}>L_1+L_2,
+\]
+then $J>0$ everywhere.
+\end{theorem}
+
+\begin{proof}
+Choose $s$ with $L_1<s<p_{12}-L_2$. Apply Lemma~\ref{lem:age} to
+\[
+ p_{01}\rho_0\rho_1+s\rho_1\rho_2-n_{02}\rho_0\rho_2
+\]
+and to
+\[
+ (p_{12}-s)\rho_1\rho_2+p_{23}\rho_2\rho_3-n_{13}\rho_1\rho_3.
+\]
+Both groups are strictly positive, and the unused term $p_{03}\rho_0\rho_3$ is positive.
+\end{proof}
+
+\begin{remark}
+Theorem~\ref{thm:two-bridge} is a two-negative-term AGE certificate in the sense of relative-entropy and SAGE nonnegativity methods~\cite{ChandrasekaranShah,MurrayEtAl}. Here the row circuits reduce the certificate to explicit scalar inequalities and a one-dimensional allocation.
+\end{remark}
+
+\section{Everywhere-positive determinant}\label{sec:det}
+Write the columns of $A$ as $a_0,\ldots,a_3$ and the rows of $B$ as $b_0,\ldots,b_3$. In pair order
+\[
+01,02,03,12,13,23,
+\]
+the output minors are
+\[
+ 1,-1,\frac18,8,-2,1,
+\]
+and the row minors are
+\[
+ 1,\frac54,\frac95,\frac15,\frac12,\frac{53}{200}.
+\]
+Thus the Cauchy--Binet coefficients are
+\[
+ 1,-\frac54,\frac9{40},\frac85,-1,\frac{53}{200}.
+\]
+Put $z=Bx$ and $\rho_i=\sigma'(z_i)$. Since
+\[
+ \sigma'(t)=\frac14e^{-\psi(t)},
+ \qquad \psi(t)=2\log\cosh(t/2),
+\]
+Lemma~\ref{lem:age} applies. Split
+\[
+ \frac85=\frac38+\frac{49}{40}
+\]
+and write
+\[
+ \det DF=G_1+G_2+\frac9{40}\rho_0\rho_3,
+\]
+where
+\[
+ G_1=\rho_0\rho_1+\frac38\rho_1\rho_2-\frac54\rho_0\rho_2
+\]
+and
+\[
+ G_2=\frac{49}{40}\rho_1\rho_2
+ +\frac{53}{200}\rho_2\rho_3-\rho_1\rho_3.
+\]
+The rows give the exact relations
+\[
+ z_1=\frac4{25}z_0+\frac45z_2,
+ \qquad
+ z_2=\frac{53}{100}z_1+\frac25z_3.
+\]
+For $G_1$, use weights $w_0=1/5$, $w_2=4/5$. The coefficient bound is
+\[
+ \left(\frac{15}{8}\right)^{1/5}
+ \left(\frac54\right)^{4/5}>\frac54.
+\]
+For $G_2$, use weights $w_1=53/100$, $w_3=47/100$. The required inequality is
+\[
+ \left(\frac12\right)^{53/100}
+ \left(\frac{245}{94}\right)^{47/100}>1,
+\]
+which is equivalent to
+\[
+ 245^{47}>94^{47}2^{53}.
+\]
+Hence $G_1,G_2>0$, proving $\det DF>0$ everywhere.
+
+\section{Exact winding and two preimages}\label{sec:winding}
+The row walls are pairwise distinct. Over one semicircle their crossing order gives the signed edge sequence
+\[
+ +a_1,+a_2,+a_3,-a_0,-a_1,-a_2,-a_3,+a_0.
+\]
+Starting at $a_0$, the asymptotic octagon has vertices
+\[
+ (1,0),(1,1),(-7,0),(-5,1/8),
+\]
+\[
+ (-6,1/8),(-6,-7/8),(2,1/8),(0,0).
+\]
+The target $y=(-11/2,1/10)$ is not on an edge. Exact rational ray crossing gives
+\[
+ \wind(\gamma,y)=2.
+\]
+The companion degree--winding theorem states, for continuously saturating planar ridge maps with pairwise nonparallel rows and nonvanishing Jacobian,
+\[
+ \#F^{-1}(y)=\operatorname{sgn}(\det DF)\wind(\gamma,y)
+\]
+for $y$ off the asymptotic loop~\cite{DixonPolygon}. It also yields the necessary-and-sufficient planar criterion that such a map is injective exactly when its signed winding values off the loop belong to $\{0,1\}$; in generic transverse position this is equivalent to simplicity of the asymptotic polygon. All hypotheses have been established, and the orientation is positive, so $\#F^{-1}(y)=2$. This proves Theorem~\ref{thm:main}.
+
+\begin{remark}
+Numerical solutions are approximately
+\[
+ (-0.56521578,3.11351292),\qquad
+ (25.17547641,7.45168466),
+\]
+and Proposition~\ref{prop:krawczyk} certifies them.
+\end{remark}
+
+The degree--winding route above counts preimages globally.  The following
+independent certificate exhibits two of them directly, so that the refutation
+does not rest on the companion boundary-loop lemma.
+
+\begin{proposition}[Two certified preimages]\label{prop:krawczyk}
+Let
+\[
+ x_1=(-0.5652157847725153,\ 3.1135129207599814),\qquad
+ x_2=(25.1754764056295704,\ 7.4516846575961514),
+\]
+and let $X_i$ be the closed interval box of radius $10^{-10}$ about $x_i$ in
+each coordinate.  Then $X_1$ and $X_2$ are disjoint and each contains exactly
+one solution of $F(x)=y$.  Consequently $F$ is not injective.
+\end{proposition}
+
+\begin{proof}
+For a box $X$ with midpoint $m$ and $C=DF(m)^{-1}$, the interval Krawczyk
+operator is
+\[
+ K(X)=m-C\,F(m)+\bigl(I-C\,DF(X)\bigr)(X-m),
+\]
+where $DF(X)$ is an interval enclosure of the Jacobian over $X$.  If
+$K(X)\subseteq\operatorname{int}X$ then $F-y$ has exactly one zero in $X$.
+The enclosure is evaluated in ball arithmetic at $100$ decimal digits; the
+residuals $\lVert F(m)-y\rVert$ are below $2\times10^{-54}$ at both centres,
+the centre Jacobian determinants are approximately $5.5264\times10^{-3}$ and
+$6.4604\times10^{-4}$, both nonzero, and $K(X_i)$ lies strictly inside $X_i$
+coordinatewise for $i=1,2$.  The boxes are separated by more than $25$ in the
+first coordinate, hence disjoint, so the two roots are distinct.  Positivity of
+$\det DF$ is Section~\ref{sec:det} and is not used here beyond confirming that
+$DF(m)$ is invertible.
+\end{proof}
+
+\begin{remark}
+This certificate is independent of the asymptotic geometry: it uses only the
+matrices of Theorem~\ref{thm:main}, the target $y$, and outward-rounded
+interval arithmetic.  The winding computation remains the statement that
+explains the count, and supplies the exact global multiplicity.
+\end{remark}
+
+\section{An explicit multiparameter counterexample family}\label{sec:family}
+The counterexample belongs to a transparent region rather than merely a small certified ball.
+
+\begin{theorem}[Explicit analytic family]\label{thm:family}
+Let
+\[
+ A(u,t)=\begin{pmatrix}
+ 1&0&-8&u\\
+ 0&1&-1&t
+ \end{pmatrix}
+\]
+and keep $B$ as in Theorem~\ref{thm:main}. For $c=(c_0,c_1,c_2,c_3)$ define
+\[
+ \delta_1=c_1-\frac4{25}c_0-\frac45c_2,
+ \qquad
+ \delta_2=c_2-\frac{53}{100}c_1-\frac25c_3.
+\]
+If
+\[
+ \frac{199}{100}<u<\frac{51}{25},
+ \qquad
+ \frac3{25}<t<\frac{13}{100},
+\]
+and
+\[
+ |\delta_1|<\frac3{40},
+ \qquad
+ |\delta_2|<\frac1{20},
+\]
+then
+\[
+ F_{u,t,c}(x)=A(u,t)\sigma(Bx+c)
+\]
+has positive Jacobian determinant everywhere and winding number two at $y=(-11/2,1/10)$. Consequently it is not injective and $\#F_{u,t,c}^{-1}(y)=2$.
+\end{theorem}
+
+\begin{proof}
+The mixed coefficients are
+\[
+ 1,-\frac54,\frac95t,\frac85,-\frac u2,
+ \frac{53}{200}(u-8t).
+\]
+Use the same split $8/5=3/8+49/40$. For the first bridge, the zero-bias coefficient ratio divided by $5/4$ is
+\[
+ R_1=\left(\frac32\right)^{1/5}.
+\]
+The exact inequality
+\[
+ 3\cdot37^5>2\cdot40^5
+\]
+gives $R_1>40/37$, while $e^{3/40}<40/37$ follows from $e^x<(1-x)^{-1}$ for $0<x<1$. Since the logistic potential satisfies $\psi(s)\le |s|$, the first bridge remains strict under $|\delta_1|<3/40$.
+
+For the second bridge, the zero-bias ratio is
+\[
+ R_2(u,t)=
+ \frac{(245/94)^{47/100}((u-8t)/2)^{53/100}}{u/2}.
+\]
+On the stated rectangle,
+\[
+ \frac{\partial}{\partial u}\log R_2
+ =\frac{800t-47u}{100u(u-8t)}>0,
+ \qquad
+ \frac{\partial}{\partial t}\log R_2<0.
+\]
+Thus the minimum occurs at $(u,t)=(199/100,13/100)$. Raising to the hundredth power gives an exact integer comparison showing this minimum exceeds $20/19$. Since $e^{1/20}<20/19$, the second bridge remains strict under $|\delta_2|<1/20$.
+
+The asymptotic polygon is independent of $c$. Target-edge incidence in the moving $(u,t)$ family occurs, in the relevant component, on the lines
+\[
+ t=\frac1{10},\qquad u=15t,\qquad u=\frac52.
+\]
+The parameter rectangle lies strictly in the component containing $(2,1/8)$, so the target winding remains two. The degree--winding formula finishes the proof.
+\end{proof}
+
+\begin{remark}
+Theorem~\ref{thm:family} gives open freedom in two output parameters and all four biases subject to two open linear residual conditions. The general criterion in Theorem~\ref{thm:two-bridge} gives a still larger implicit analytic class in the full network parameters.
+\end{remark}
+
+\section{Sharp width classification}\label{sec:lift}
+For $n\ge2$, define
+\[
+ G_n(x_1,\ldots,x_n)
+ =\bigl(F(x_1,x_2),\sigma(x_3),\ldots,\sigma(x_n)\bigr).
+\]
+This is a one-hidden-layer affine-ridge network of width $4+(n-2)=n+2$. Its Jacobian is block diagonal, so
+\[
+ \det DG_n(x)=\det DF(x_1,x_2)\prod_{k=3}^n\sigma'(x_k)>0.
+\]
+It is noninjective because the two planar preimages can be augmented with identical remaining coordinates. For $N>n+2$, duplicate a hidden row and split its output column into nonzero summands; the represented function and Jacobian are unchanged.  The duplicated rows are parallel, so the standing nondegeneracy hypothesis of the polygon and degree results no longer holds; neither is reapplied after duplication, and positivity and noninjectivity transfer because the function itself is unchanged. This proves Corollary~\ref{cor:sharp}.
+
+\section{Symmetric log-concave activation class}\label{sec:activation}
+The logistic formula is not essential.
+
+\begin{corollary}[Activation-class extension]\label{cor:activation}
+Let $q(t)=C e^{-\psi(t)}$ be an even log-concave probability density that is strictly positive on all of $\R$, so that $\psi:\R\to\R$ is finite valued, normalized so that $\psi\ge0$ and $\psi(0)=0$, and define
+\[
+ f(t)=\int_{-\infty}^{t}q(s)\,ds.
+\]
+Then the matrices in Theorem~\ref{thm:main}, with $\sigma$ replaced by $f$, define an everywhere-positive-Jacobian noninjective ridge map with two preimages of the same target. The dimension and width lift also applies.
+\end{corollary}
+
+\begin{proof}
+The derivative $f'=q$ satisfies Lemma~\ref{lem:age}. The asymptotic polygon and its winding use only continuity, strict monotonicity, and saturation to zero and one. The determinant and degree arguments are therefore unchanged.
+\end{proof}
+
+This includes the logistic sigmoid, $(1+\tanh t)/2$, the Gaussian distribution function, and the normalized generalized Gaussian family with density proportional to $e^{-|t|^p}$ for $p\ge1$.
+
+\section{Alternating-sign chamber classification}\label{sec:classification}
+The explicit counterexample is sufficient to refute the conjecture. The following exact classification explains why its two negative pairs are structurally canonical.
+
+Fix an ordered generic four-generator centrally symmetric octagon with edge sequence
+\[
+ g_0,g_1,g_2,g_3,-g_0,-g_1,-g_2,-g_3.
+\]
+Write $g_i=\lambda_i d_i$ with fixed pairwise nonparallel directions and $\lambda_i>0$.
+
+\begin{proposition}[Refined magnitude chambers]\label{prop:chambers}
+For fixed directed edge directions, there is a finite central hyperplane arrangement in positive magnitude space such that, on each open chamber, the crossing set, the order of crossings along every edge, polygon simplicity, and the winding spectrum are constant.
+\end{proposition}
+
+\begin{proof}
+Every vertex is homogeneous linear in $\lambda$. Edge--vertex orientation predicates are signs of homogeneous linear forms $L_{rs}(\lambda)$. If two nonparallel comparison edges meet the line of edge $r$ at parameters $t_{rs}$ and $t_{rt}$, the numerator of $t_{rs}-t_{rt}$ is another homogeneous linear form $K_{r;s,t}(\lambda)$. Add all nonzero $L$ and $K$ walls. Within an open chamber, no vertex crosses a nonincident edge and no intersection points exchange order along an edge. The induced planar immersion is isotopic, so its face winding data are constant.
+\end{proof}
+
+\begin{theorem}[Exact four-generator alternating classification]\label{thm:classification}
+Fix the canonical direction realization of each labeled uniform rank-two chirotope used by the certificate below.  In the chosen edge order and positive orientation, suppose the winding spectrum is nonnegative and contains a value at least two. Then the six generator determinant signs, in pair order
+\[
+ 01,02,03,12,13,23,
+\]
+are
+\[
+ (+,-,+,+,-,+).
+\]
+\end{theorem}
+
+\begin{proof}[Computer-assisted exact proof]
+The certificate enumerates all $48$ labeled uniform realizable rank-two chirotopes on four generators. For each chirotope it constructs every $L$ and $K$ wall from Proposition~\ref{prop:chambers}. Exact Gordan-circuit alternatives certify feasibility or infeasibility of each chamber sign vector. Each feasible chamber receives a rational interior point, and exact segment and ray-crossing predicates compute its winding spectrum. Across all chirotopes there are $2448$ feasible refined chambers. Exactly one sign pattern admits a nonnegative spectrum with maximum at least two, namely the displayed alternating pattern. For that pattern, $140$ chambers have spectrum $\{0,1,2\}$, $51$ have spectrum $\{0,1,2,3\}$, and $14$ have spectrum $\{-1,0,1\}$.
+\end{proof}
+
+\begin{remark}
+The classification is not load-bearing for Theorem~\ref{thm:main}. It is included to identify the unique generic sign type that can support nonnegative winding multiplicity two in the ordered problem.  The quantifier is over the enumerated canonical realizations rather than over every generic realization: four generic directions in $\mathbb{RP}^1$ retain a one-dimensional modulus modulo $\mathrm{PGL}(2,\R)$, since that group is sharply $3$-transitive, and the winding spectrum is not a chirotope invariant --- positive rescaling can preserve every pairwise determinant sign while changing a simple loop into a self-intersecting one~\cite[Prop.~6.6]{DixonPolygon}. Extending the statement to all realizations would require adding that modulus to the exact decomposition. The full rational certificate and replay are supplied separately.
+\end{remark}
+
+\section{Higher-dimensional boundary framework}\label{sec:higher}
+The block lift resolves higher-dimensional existence without a boundary theory. A complementary geometric criterion is nevertheless available.
+
+\begin{theorem}[Cluster-sphere inversion]\label{thm:sphere}
+Let $H:\R^n\to\R^n$ be a bounded local homeomorphism whose cluster set at infinity is contained in a locally flat embedded sphere $\Gamma\cong S^{n-1}$. Then $H$ is a homeomorphism onto the bounded component of $\R^n\setminus\Gamma$. If $H$ is $C^1$ with nonsingular derivative, it is a global $C^1$ diffeomorphism.
+\end{theorem}
+
+\begin{proof}
+For compact sets disjoint from $\Gamma$, preimages are compact by the escaping-sequence definition of the cluster set. This relative properness excludes the unbounded complementary component and the separator, and makes the image open and closed in the bounded component. Hence the restriction is a proper surjective local homeomorphism, and a proper local homeomorphism onto a locally compact, locally connected Hausdorff space is a covering map~\cite{HoProper}. Generalized Schoenflies identifies the bounded component with an open ball~\cite{BrownSchoenflies}; connectedness of $\R^n$ forces one sheet.
+\end{proof}
+
+\begin{theorem}[Ridge cluster-cell equality]\label{thm:cell}
+Let
+\[
+ H(x)=A f(Bx+c):\R^n\to\R^n,
+\]
+where $f:\R\to(0,1)$ is continuous, strictly increasing, and saturating. Assume the central row arrangement of $B$ is essential and simple. Let $\mathcal D(B)$ be the dual cubical cell sphere. For a spherical arrangement face with zero set $J$ and positive-sign set $S$, define
+\[
+ \Phi_{S,J}(t)=\sum_{i\in S}a_i+\sum_{j\in J}t_j a_j,
+ \qquad t\in[0,1]^J.
+\]
+These cell maps glue to a continuous piecewise-linear map $\Phi_{A,B}:\mathcal D(B)\to\R^n$, and
+\[
+ \clinf(H)=\Phi_{A,B}(\mathcal D(B)).
+\]
+\end{theorem}
+
+\begin{proof}
+For an escaping sequence, pass to a limiting direction. Rows with nonzero directional evaluation saturate, while rows in the zero set contribute limiting coordinates in $[0,1]$, proving one inclusion. Conversely, fix a face direction $u$, zero set $J$, and $t\in(0,1)^J$. Put $\tau_j=f^{-1}(t_j)$. Simplicity makes the rows $B_J$ independent, so choose $v$ with $B_Jv=\tau-c_J$. Then $x_R=Ru+v$ fixes the wall logits at $\tau$ and sends every other logit to its prescribed signed infinity. Thus $H(x_R)\to\Phi_{S,J}(t)$. Boundary points follow by closure, and the face identifications give the gluing.
+\end{proof}
+
+\begin{proposition}[Finite dual-cell embedding test]\label{prop:cell-test}
+Assume every cell restriction of $\Phi_{A,B}$ has full affine rank, and for every two closed cells $C,D$ of $\mathcal D(B)$,
+\[
+ \Phi_{A,B}(C)\cap\Phi_{A,B}(D)=\Phi_{A,B}(C\cap D).
+\]
+Then $\Phi_{A,B}$ is a piecewise-linear embedding. If its finite vertex-link pairs are locally flat, its image is a locally flat embedded sphere. The rank and pairwise-intersection conditions reduce to finitely many exact linear-algebra and polytope-feasibility checks.
+\end{proposition}
+
+\begin{proof}
+The intersection condition makes the map globally one-to-one after the cellwise full-rank checks. A continuous injection from the compact cell sphere into the Hausdorff space $\R^n$ is an embedding. Local flatness is local and is decided by the finitely many links in the chosen subdivision.
+\end{proof}
+
+\begin{corollary}[Dual-cell embedding criterion]\label{cor:cell}
+Under Theorem~\ref{thm:cell}, if the conditions of Proposition~\ref{prop:cell-test} and its local-link clause hold and $DH$ is nonsingular everywhere, then $H$ is a global diffeomorphism onto the bounded component enclosed by its asymptotic cell sphere.
+\end{corollary}
+
+This gives a finite certificate architecture for the higher-dimensional boundary problem. A practical general-purpose implementation and complexity analysis remain open. The framework is not needed for the sharp counterexample threshold.
+
+\section{Verification status and evidence boundaries}
+The repository contains exact rational checks of the minors, Pl\"ucker relation, row circuits, coefficient inequalities, wall order, polygon vertices, target exclusion, winding number, the multiparameter family, the dimension lift, and the finite chamber classification. A separately written SymPy implementation reconstructs the central counterexample using independent matrix, wall-order, and winding code. Numerical root finding supplies non-load-bearing corroboration of the two preimages.
+
+The finite chamber theorem is computer assisted. Its completeness claim depends on the exact Gordan-circuit enumeration and should be reviewed separately from the explicit counterexample. The central conjecture refutation depends only on the exact determinant argument, the exact winding computation, and the degree--winding theorem from the companion paper.
+
+The project remains marked as a draft because all present implementations and proof reconstructions were produced within one coordinated workflow. External specialist review and a genuinely third-party reconstruction remain submission gates.
+
+\section{Conclusion}
+An everywhere-positive Jacobian does not force injectivity for sigmoid ridge networks once the hidden width reaches $n+2$. The obstruction already occurs at $n=2$, $N=4$, where a two-bridge analytic certificate keeps the local orientation positive while an asymptotic octagon carries winding multiplicity two. The resulting sharp threshold separates the two lowest nonvacuous widths from every larger width. The mechanism persists on a transparent multiparameter region and across all symmetric log-concave saturating activations. The chamber classification identifies the alternating two-negative sign pattern as the unique ordered generic four-generator type supporting nonnegative winding multiplicity at least two.
+
+\begin{thebibliography}{99}
+\bibitem{ChenJiang}
+X. Chen and X. Jiang,
+\emph{Moonshine: An Autonomous Mathematical Research Agent Centered on Conjecture Generation},
+arXiv:2606.10806, 2026.
+
+\bibitem{DixonPolygon}
+L. M. Dixon,
+\emph{Asymptotic-polygon global inversion for planar saturating ridge networks and an injective neural--Jacobian separation witness},
+preprint, 2026.
+
+\bibitem{ChandrasekaranShah}
+V. Chandrasekaran and P. Shah,
+\emph{Relative Entropy Relaxations for Signomial Optimization},
+SIAM Journal on Optimization 26 (2016), 1147--1173.
+
+\bibitem{MurrayEtAl}
+R. Murray, V. Chandrasekaran, and A. Wierman,
+\emph{Newton Polytopes and Relative Entropy Optimization},
+Foundations of Computational Mathematics 21 (2021), 1703--1737.
+
+\bibitem{BrownSchoenflies}
+M. Brown,
+\emph{A proof of the generalized Schoenflies theorem},
+Bulletin of the American Mathematical Society 66 (1960), 74--76.
+
+\bibitem{HoProper}
+C.-W. Ho,
+\emph{A note on proper maps},
+Proceedings of the American Mathematical Society 51 (1975), 237--241.
+\end{thebibliography}
+
+\end{document}

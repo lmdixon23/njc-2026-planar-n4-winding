@@ -1,0 +1,35 @@
+{
+  "status": "numerical corroboration only",
+  "target": [
+    -5.5,
+    0.1
+  ],
+  "root_count_found": 2,
+  "roots": [
+    {
+      "x": [
+        -0.5652157847732898,
+        3.1135129207589767
+      ],
+      "F_of_x": [
+        -5.500000000000033,
+        0.09999999999997788
+      ],
+      "infinity_residual": 3.2862601528904634e-14,
+      "det_DF": 0.0055263827545218224
+    },
+    {
+      "x": [
+        25.1754764056245,
+        7.451684657594647
+      ],
+      "F_of_x": [
+        -5.499999999999979,
+        0.1000000000000063
+      ],
+      "infinity_residual": 2.1316282072803006e-14,
+      "det_DF": 0.0006460393860830495
+    }
+  ],
+  "proof_note": "The exact count two follows from the exact winding calculation and the degree-winding theorem, not from this numerical search."
+}

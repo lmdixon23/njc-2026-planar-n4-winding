@@ -1,0 +1,19 @@
+{
+  "verdict": "VERIFIED",
+  "groups": [
+    {
+      "group": "negative pair 02",
+      "bridge_relation": "verified exactly",
+      "convex_slack": "1/25",
+      "amgm_coefficient_power_check": "9600000 > 6400000",
+      "conclusion": "strictly positive for every input when the log derivative potential is even, convex, nonnegative, and vanishes at zero"
+    },
+    {
+      "group": "negative pair 13",
+      "bridge_relation": "verified exactly",
+      "convex_slack": "7/100",
+      "amgm_coefficient_power_check": "19534664875184281745231121078079109829422084189834574089113895822905459670994935805765635450370609760284423828125 > 4915853020220322708892584878982088769748071737735202939330142604524710755100583893677737136602023819359551488",
+      "conclusion": "strictly positive for every input when the log derivative potential is even, convex, nonnegative, and vanishes at zero"
+    }
+  ]
+}

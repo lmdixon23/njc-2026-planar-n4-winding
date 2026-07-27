@@ -1,0 +1,95 @@
+{
+  "verdict": "VERIFIED BY INDEPENDENT SYMPY RECONSTRUCTION",
+  "mixed_coefficients": {
+    "01": "1",
+    "02": "-5/4",
+    "03": "9/40",
+    "12": "8/5",
+    "13": "-1",
+    "23": "53/200"
+  },
+  "row_relations": [
+    [
+      "4/25",
+      "4/5"
+    ],
+    [
+      "53/100",
+      "2/5"
+    ]
+  ],
+  "edge_sequence": [
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      -1,
+      0
+    ],
+    [
+      -1,
+      1
+    ],
+    [
+      -1,
+      2
+    ],
+    [
+      -1,
+      3
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      1
+    ]
+  ],
+  "vertices": [
+    [
+      "1",
+      "1"
+    ],
+    [
+      "-7",
+      "0"
+    ],
+    [
+      "-5",
+      "1/8"
+    ],
+    [
+      "-6",
+      "1/8"
+    ],
+    [
+      "-6",
+      "-7/8"
+    ],
+    [
+      "2",
+      "1/8"
+    ],
+    [
+      "0",
+      "0"
+    ],
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "target": [
+    "-11/2",
+    "1/10"
+  ],
+  "winding": 2,
+  "scope": "Independent internal reconstruction using SymPy matrices and a separately written wall-order and winding implementation. This is not external specialist review."
+}

@@ -1,0 +1,38 @@
+{
+  "status": "candidate_not_found",
+  "minimum_normalized_margin": -0.07449943294852596,
+  "minimum_jacobian_at_sample": -0.42957221627964876,
+  "normalizing_sum_at_sample": 5.766113905544139,
+  "witness_point": [
+    -0.41176471,
+    -0.82352941
+  ],
+  "optimizer_vector": [
+    0.32070558,
+    1.09909087,
+    0.34017056,
+    -2.23807166,
+    0.51857841,
+    0.86987543
+  ],
+  "B": [
+    [
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0
+    ],
+    [
+      -1.37809978,
+      3.00143609
+    ],
+    [
+      -1.40518724,
+      3.13783061
+    ]
+  ],
+  "warning": "Floating point sampled evidence only. This is not a global certificate.",
+  "interpretation": "The first bounded search did not find a positive candidate for the fixed exact winding two output geometry."
+}

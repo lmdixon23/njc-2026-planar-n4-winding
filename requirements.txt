@@ -1,0 +1,5 @@
+mpmath
+numpy
+python-flint
+scipy
+sympy
