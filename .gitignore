@@ -19,3 +19,5 @@ paper/*.synctex.gz
 # Transient reports
 NJC_*_REPORT.txt
 njc_*_report.txt
+
+paper/main.pdf
