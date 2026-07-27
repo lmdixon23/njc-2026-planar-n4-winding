@@ -40,7 +40,7 @@ def main():
         })
     report={'status':'nonrigorous stress test passed','blocks':blocks,'warning':'Floating point sampling is corroboration only. Log scaling prevents tail underflow; the analytic AGE proof is load bearing.'}
     OUT.parent.mkdir(parents=True,exist_ok=True)
-    OUT.write_text(json.dumps(report,indent=2)+'\n')
+    OUT.write_text(json.dumps(report,indent=2)+'\n', newline="\n")
     print(json.dumps(report,indent=2))
 
 if __name__=='__main__':

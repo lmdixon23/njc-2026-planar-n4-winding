@@ -114,7 +114,7 @@ def main():
         'scope': 'Independent internal reconstruction using SymPy matrices and a separately written wall-order and winding implementation. This is not external specialist review.',
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+    OUT.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8', newline="\n")
     print(json.dumps(report, indent=2))
 
 

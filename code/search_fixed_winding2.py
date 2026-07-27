@@ -136,7 +136,7 @@ def main() -> None:
     })
 
     RESULT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    RESULT_PATH.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+    RESULT_PATH.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8', newline="\n")
     print(json.dumps(report, indent=2))
 
 if __name__ == '__main__':

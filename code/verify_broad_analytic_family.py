@@ -67,7 +67,7 @@ def main() -> None:
         'conclusion': 'Every parameter satisfying the displayed inequalities is a positive-Jacobian noninjective logistic four-ridge map with winding two at y=(-11/2,1/10).',
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+    OUT.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8', newline="\n")
     print(json.dumps(report, indent=2))
 
 

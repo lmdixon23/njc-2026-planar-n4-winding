@@ -54,7 +54,7 @@ def main() -> None:
       'proof_note':'The exact count two follows from the exact winding calculation and the degree-winding theorem, not from this numerical search.'
     }
     OUT.parent.mkdir(parents=True,exist_ok=True)
-    OUT.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+    OUT.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8', newline="\n")
     print(json.dumps(report,indent=2))
 
 if __name__=='__main__':
