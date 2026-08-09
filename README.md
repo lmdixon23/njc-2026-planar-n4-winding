@@ -1,10 +1,14 @@
-# Planar four-ridge counterexample
+# A positive-Jacobian noninjective sigmoid ridge map and the sharp hidden-width threshold
 
 ![verify](https://github.com/lmdixon23/njc-2026-planar-n4-winding/actions/workflows/verify.yml/badge.svg)
 
-Manuscript source, exact data, and reproducibility materials for a planar
-four-ridge counterexample to the Neural Jacobian Conjecture and the resulting
-sharp hidden-width threshold.
+Manuscript source, exact data, and reproducibility materials for an exact
+planar four-ridge counterexample to the Neural Jacobian Conjecture and the
+resulting sharp hidden-width threshold.
+
+## Main result
+
+At n = 2 and N = 4, the manuscript gives exact rational matrices defining a sigmoid ridge map with positive Jacobian determinant everywhere that is nevertheless noninjective. An explicit rational target has winding number two, and two distinct preimages are independently certified by interval Krawczyk methods. Together with the positive results at widths N = n and N = n + 1, this gives the sharp hidden-width threshold.
 
 ## Repository contents
 
@@ -53,6 +57,14 @@ separately.
 
 `data/counterexample.json` carries the exact rational matrices and target. Its
 SHA-256 is recorded in `SHA256SUMS.txt` and bound into every report.
+
+## Related research
+
+The companion [asymptotic-polygon global-inversion repository](https://github.com/lmdixon23/njc-2026-cluster-inversion) develops the planar asymptotic-polygon and winding framework used in the surrounding Neural Jacobian programme.
+
+## Author
+
+Logan M. Dixon · [research site](https://lmdixon23.github.io/) · [ORCID](https://orcid.org/0009-0001-0592-462X)
 
 ## Build
 
