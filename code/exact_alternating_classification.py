@@ -174,6 +174,44 @@ def wind(P,q):
             if b[1]<=q[1] and orient(a,b,q)<0:w-=1
     return w
 
+def adjacent_face_samples(P, edge_index, midpoint):
+    """Sample both incident faces using exact clearance from every other edge.
+
+    The midpoint must be in an open subdivided edge.  Merely checking that a
+    sample endpoint is off the polygon can jump across an arbitrarily thin face.
+    Intersections of the full normal line with the other finite edges give a
+    strict clearance bound, including vertex and collinear intersections.
+    """
+    edge=p_sub(P[(edge_index+1)%len(P)],P[edge_index])
+    normal=(-edge[1],edge[0])
+    if normal==(0,0):
+        raise ValueError('cannot sample a zero-length edge')
+    distances=[]
+    for j,a in enumerate(P):
+        if j==edge_index:
+            continue
+        b=P[(j+1)%len(P)]
+        other=p_sub(b,a)
+        offset=p_sub(a,midpoint)
+        denominator=cross(normal,other)
+        if denominator:
+            t=cross(offset,other)/denominator
+            u=cross(offset,normal)/denominator
+            if 0<=u<=1:
+                if t==0:
+                    raise ValueError('subdivided-edge midpoint is on another edge')
+                distances.append(abs(t))
+        elif cross(offset,normal)==0:
+            coordinate=0 if normal[0] else 1
+            endpoints=(offset[coordinate]/normal[coordinate],
+                       (b[coordinate]-midpoint[coordinate])/normal[coordinate])
+            if min(endpoints)<=0<=max(endpoints):
+                raise ValueError('subdivided-edge midpoint is on another edge')
+            distances.extend(map(abs,endpoints))
+    epsilon=min([Fraction(1)]+distances)/2
+    return (p_add(midpoint,p_scale(epsilon,normal)),
+            p_sub(midpoint,p_scale(epsilon,normal)))
+
 def spectrum(D,lam):
     E=[(lam[i]*D[i][0],lam[i]*D[i][1]) for i in range(4)];E+= [(-x,-y) for x,y in E]
     P=[];cur=(Fraction(0),Fraction(0))
@@ -185,15 +223,11 @@ def spectrum(D,lam):
         if z:split[i].add(z[0]);split[j].add(z[1])
     M=max(abs(x) for p in P for x in p)+10;samples=[(M,M)]
     for i in range(8):
-        a=P[i];b=P[(i+1)%8];e=p_sub(b,a);n=(-e[1],e[0]);nn=max(abs(n[0]),abs(n[1]),Fraction(1))
+        a=P[i];b=P[(i+1)%8];e=p_sub(b,a)
         T=sorted(split[i])
         for x,y in zip(T,T[1:]):
             m=p_add(a,p_scale((x+y)/2,e))
-            for k in range(4,40):
-                ep=Fraction(1,2**k)/nn;q1=p_add(m,p_scale(ep,n));q2=p_sub(m,p_scale(ep,n))
-                if not any(on(q1,P[j],P[(j+1)%8]) for j in range(8)) and not any(on(q2,P[j],P[(j+1)%8]) for j in range(8)):
-                    samples.extend([q1,q2]);break
-            else:raise RuntimeError('perturb')
+            samples.extend(adjacent_face_samples(P,i,m))
     return tuple(sorted({wind(P,q) for q in samples}))
 
 def fs(x):return f'{x.numerator}/{x.denominator}'
@@ -216,7 +250,7 @@ def main():
             'pair_order':['01','02','03','12','13','23'],
             'method':'48 exact rank-two chirotopes; refined L and K magnitude walls; exact Gordan circuit completeness; rational chamber witnesses; exact rational winding spectra',
             'patterns':OUT}
-    raw=json.dumps(report,indent=2).encode();out_path=Path(__file__).resolve().parents[1]/'results'/'exact_alternating_classification.json'
+    raw=(json.dumps(report,indent=2)+'\n').encode();out_path=Path(__file__).resolve().parents[1]/'results'/'exact_alternating_classification.json'
     out_path.parent.mkdir(parents=True,exist_ok=True)
     out_path.write_bytes(raw)
     print('DONE',len(OUT),total,qual,time.time()-t0,'sha',hashlib.sha256(raw).hexdigest())

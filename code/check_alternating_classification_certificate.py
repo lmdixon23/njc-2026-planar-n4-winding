@@ -16,17 +16,33 @@ def parse_fraction(text: str) -> Fraction:
         return Fraction(int(a),int(b))
     return Fraction(int(text),1)
 
+def validate_pattern_inventory(data: dict) -> None:
+    records=data['patterns']
+    assert len(records)==data['pattern_count']==len(core.patterns)==48
+    actual=[]
+    for rec in records:
+        pat=tuple(rec['pattern'])
+        assert len(pat)==6 and all(type(s) is int and s in (-1,1) for s in pat)
+        assert pat in core.patterns
+        D=rec['directions']
+        assert len(D)==4 and all(len(v)==2 and all(type(x) is int for x in v) for v in D)
+        assert D==[list(v) for v in core.patterns[pat]]
+        actual.append(pat)
+    assert len(set(actual))==len(actual)
+    assert set(actual)==set(core.patterns)
+
 def main() -> None:
     data=json.loads(REPORT.read_text(encoding='utf-8'))
     assert data['schema']=='exact-alternating-classification-v1'
     assert data['pattern_count']==48
     assert data['total_chambers']==2448
     assert data['pair_order']==['01','02','03','12','13','23']
+    validate_pattern_inventory(data)
 
     qualifying=[]
     total=0
     for rec in data['patterns']:
-        D=[tuple(map(int,v)) for v in rec['directions']]
+        D=[tuple(v) for v in rec['directions']]
         pat=tuple(1 if core.det2(D[i],D[j])>0 else -1 for i,j in core.PAIRS)
         assert list(pat)==rec['pattern']
         W=core.walls_for(D)
@@ -37,10 +53,14 @@ def main() -> None:
 
         chambers={}
         spectra=Counter()
+        assert rec['chambers'] and len(rec['chambers'])==rec['chamber_count']
         for item in rec['chambers']:
-            signs=tuple(map(int,item['signs']))
+            signs=tuple(item['signs'])
             lam=tuple(parse_fraction(x) for x in item['lambda'])
             assert len(signs)==len(W)
+            assert all(type(s) is int and s in (-1,1) for s in signs)
+            assert len(lam)==4
+            assert signs not in chambers
             assert all(x>0 for x in lam)
             assert all(s*core.evalf(w,lam)>0 for s,w in zip(signs,W))
             assert not core.infeas(signs,circuits)

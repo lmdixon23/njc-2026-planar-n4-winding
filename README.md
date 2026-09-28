@@ -8,7 +8,7 @@ resulting sharp hidden-width threshold.
 
 ## Main result
 
-At n = 2 and N = 4, the manuscript gives exact rational matrices defining a sigmoid ridge map with positive Jacobian determinant everywhere that is nevertheless noninjective. An explicit rational target has winding number two, and two distinct preimages are independently certified by interval Krawczyk methods. Together with the positive results at widths N = n and N = n + 1, this gives the sharp hidden-width threshold.
+At n = 2 and N = 4, the manuscript gives exact rational matrices defining a sigmoid ridge map with positive Jacobian determinant everywhere that is nevertheless noninjective. Two disjoint preimage boxes are rigorously certified by the interval Krawczyk operator. The companion asymptotic-polygon theorem then upgrades the same target to exact global multiplicity two, and its closed-width theorem at N = n and N = n + 1 makes the threshold sharp.
 
 ## Repository contents
 
@@ -47,16 +47,22 @@ The determinant of the counterexample is positive everywhere by a two-bridge
 arithmetic-geometric-exponential argument, checked in exact rational
 arithmetic. Its asymptotic octagon has winding number two at an explicit
 rational target, computed by exact integer predicates. Two distinct preimages
-of that target are certified independently by the interval Krawczyk operator
+of that target are certified separately by the interval Krawczyk operator
 in Arb ball arithmetic, so the refutation does not depend on the degree-winding
-route. The multiparameter family, the dimension and width lift, the broad
-activation class, and the alternating chamber classification are checked
-separately.
+route. Exact global multiplicity two and the sharp lower-width boundary use the
+companion asymptotic-polygon paper. The explicit parameter family, the dimension
+and width lift, and the canonical-realization open-chamber classification have separate
+finite checks. The symmetric log-concave activation extension is analytic: its
+infinite function class is covered by the generic AGE lemma rather than by finite
+sampling.
 
 ## Canonical data
 
 `data/counterexample.json` carries the exact rational matrices and target. Its
-SHA-256 is recorded in `SHA256SUMS.txt` and bound into every report.
+SHA-256 is recorded in `SHA256SUMS.txt` and bound into every report. The file is
+retained byte-for-byte from the v1.0.0 release; its embedded `release_status`
+field is therefore historical metadata, not the current publication-readiness
+state.
 
 ## Related research
 
@@ -64,7 +70,7 @@ The companion [asymptotic-polygon global-inversion repository](https://github.co
 
 ## Author
 
-Logan M. Dixon · [research site](https://lmdixon23.github.io/) · [ORCID](https://orcid.org/0009-0001-0592-462X)
+Logan M. Dixon Â· [research site](https://lmdixon23.github.io/) Â· [ORCID](https://orcid.org/0009-0001-0592-462X)
 
 ## Build
 

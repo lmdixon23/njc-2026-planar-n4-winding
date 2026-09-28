@@ -104,14 +104,14 @@ def main():
     assert w == 2
 
     report = {
-        'verdict': 'VERIFIED BY INDEPENDENT SYMPY RECONSTRUCTION',
+        'verdict': 'VERIFIED BY SEPARATE INTERNAL SYMPY RECONSTRUCTION',
         'mixed_coefficients': {k: str(v) for k, v in mixed.items()},
         'row_relations': [list(map(str, c1)), list(map(str, c2))],
         'edge_sequence': [[s, i] for s, i in edge_sequence],
         'vertices': [[str(p[0]), str(p[1])] for p in vertices],
         'target': [str(y[0]), str(y[1])],
         'winding': w,
-        'scope': 'Independent internal reconstruction using SymPy matrices and a separately written wall-order and winding implementation. This is not external specialist review.',
+        'scope': 'Separate internal reconstruction using SymPy matrices and a separately written wall-order and winding implementation. This is not external specialist review.',
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8', newline="\n")

@@ -9,17 +9,18 @@ interval arithmetic.
 
 Method
 ------
-For a box X with midpoint m, let C = DF(m)^{-1} and
+For a box X with midpoint m, let C be a fixed point matrix approximating DF(m)^(-1) and
 
-    K(X) = m - C F(m) + (I - C DF(X)) (X - m),
+    G(x) = F(x) - y,
+    K_G(X) = m - C G(m) + (I - C DG(X)) (X - m),
 
-where DF(X) encloses the Jacobian over X.  If K(X) is contained in the
-interior of X then F - y has exactly one zero in X (Krawczyk / Moore).
+where DG(X)=DF(X) encloses the Jacobian over X.  If K_G(X) is contained
+in the interior of X then G has exactly one zero in X (Krawczyk / Moore).
 Disjointness of the two boxes then gives two distinct solutions.
 
 Arithmetic is python-flint Arb ball arithmetic; every enclosure is outward, so
-a reported PASS is rigorous at any working precision.  Lower precision merely
-widens enclosures and can only turn a PASS into a FAIL.
+a reported PASS is rigorous at the working precision.  Insufficient precision
+may fail to certify an otherwise valid box.
 
 Usage:
     python code/certify_preimage_boxes.py
@@ -45,10 +46,8 @@ TARGET = ["-11/2", "1/10"]
 # Approximate roots.  Their accuracy is irrelevant to correctness: they are box
 # centres, and the Krawczyk test either certifies the box or does not.
 CENTRES = [
-    ("-0.56521578477251531355641846986664167934827388733396856",
-     "3.11351292075998142167005832877332001362710351917071155"),
-    ("25.17547640562957044984407684817497959995047290701810793",
-     "7.4516846575961513667091955131549257381366376313620627"),
+    ("-0.5652157847725153", "3.1135129207599814"),
+    ("25.1754764056295704", "7.4516846575961514"),
 ]
 RADIUS = "1e-10"
 
@@ -93,16 +92,25 @@ def inverse2(M):
 
 def krawczyk(A, B, y, centre, radius):
     """Return (certified, diagnostics) for the box of given radius about centre."""
+    centre_q = [F(centre[0]), F(centre[1])]
+    radius_q = F(radius)
     m = [rat(centre[0]), rat(centre[1])]
-    r = rat(radius)
-    # X as balls covering [m - r, m + r]
-    X = [arb(m[0].mid(), r.mid()) if False else m[i] + arb(0, float(radius))
-         for i in range(2)]
+
+    # X encloses the exact rational box [centre-radius, centre+radius].
+    # Arb rounds the radius outward; this can only widen the derivative enclosure.
+    X = [m[i] + arb(0, radius) for i in range(2)]
 
     Fm = evaluate(A, B, m)
     resid = [Fm[0] - y[0], Fm[1] - y[1]]
     Jm = jacobian(A, B, m)
-    C, det_m = inverse2(Jm)
+    C_ball, det_m = inverse2(Jm)
+    # The Krawczyk theorem uses a fixed point preconditioner.  Take the dyadic
+    # midpoint of the outward-rounded inverse enclosure, then certify it is
+    # nonsingular.  This avoids treating an interval matrix as the theorem's C.
+    C = [[arb(C_ball[i][j].mid()) for j in range(2)] for i in range(2)]
+    det_C = C[0][0] * C[1][1] - C[0][1] * C[1][0]
+    if not (det_C > 0) and not (det_C < 0):
+        raise ValueError("fixed Krawczyk preconditioner not certified nonsingular")
     JX = jacobian(A, B, X)
 
     # I - C JX
@@ -119,14 +127,24 @@ def krawczyk(A, B, y, centre, radius):
         K.append(acc)
 
     inside = []
+    exact_box = []
     for i in range(2):
+        lo_q = centre_q[i] - radius_q
+        hi_q = centre_q[i] + radius_q
+        lo_x = rat(f"{lo_q.numerator}/{lo_q.denominator}")
+        hi_x = rat(f"{hi_q.numerator}/{hi_q.denominator}")
+        exact_box.append([str(lo_q), str(hi_q)])
         lo_k, hi_k = K[i].lower(), K[i].upper()
-        lo_x, hi_x = X[i].lower(), X[i].upper()
-        inside.append(bool(lo_k > lo_x) and bool(hi_k < hi_x))
+        # Compare with the exact rational endpoints, allowing only certified
+        # strict separation from their outward-rounded Arb enclosures.
+        inside.append(bool(lo_k > lo_x.upper()) and bool(hi_k < hi_x.lower()))
 
     return all(inside), {
-        "centre": [str(m[0].str(30)), str(m[1].str(30))],
+        "centre": [centre[0], centre[1]],
+        "centre_ball": [str(m[0].str(30)), str(m[1].str(30))],
         "radius": radius,
+        "exact_box_endpoints": exact_box,
+        "preconditioner_det": str(det_C.str(20)),
         "residual_abs": [str(abs(resid[0]).upper()), str(abs(resid[1]).upper())],
         "centre_jacobian_det": str(det_m.str(20)),
         "krawczyk_image": [str(K[0].str(30, radius=True)), str(K[1].str(30, radius=True))],
@@ -139,6 +157,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--precision", type=int, default=256)
     parser.add_argument("--json-out")
+    parser.add_argument("--check-json")
     args = parser.parse_args()
 
     ctx.prec = args.precision
@@ -169,7 +188,7 @@ def main() -> int:
 
     ok = ok and disjoint
     report = {
-        "schema": "krawczyk-preimage-boxes-v1",
+        "schema": "krawczyk-preimage-boxes-v2",
         "method": "interval Krawczyk operator, Arb ball arithmetic",
         "precision_bits": args.precision,
         "target_y": TARGET,
@@ -183,6 +202,14 @@ def main() -> int:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(report, indent=2) + "\n",
                        encoding="utf-8", newline="\n")
+
+    if args.check_json:
+        expected_path = ROOT / args.check_json
+        expected = json.loads(expected_path.read_text(encoding="utf-8"))
+        if expected != report:
+            print(f"canonical report mismatch: {args.check_json}")
+            return 1
+        print(f"canonical report matches: {args.check_json}")
 
     print(f"VERDICT: {'TWO DISTINCT PREIMAGES CERTIFIED' if ok else 'CERTIFICATION FAILED'}")
     return 0 if ok else 1

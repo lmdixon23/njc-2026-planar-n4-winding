@@ -1,5 +1,5 @@
 {
-  "verdict": "VERIFIED BY INDEPENDENT SYMPY RECONSTRUCTION",
+  "verdict": "VERIFIED BY SEPARATE INTERNAL SYMPY RECONSTRUCTION",
   "mixed_coefficients": {
     "01": "1",
     "02": "-5/4",
@@ -91,5 +91,5 @@
     "1/10"
   ],
   "winding": 2,
-  "scope": "Independent internal reconstruction using SymPy matrices and a separately written wall-order and winding implementation. This is not external specialist review."
+  "scope": "Separate internal reconstruction using SymPy matrices and a separately written wall-order and winding implementation. This is not external specialist review."
 }

@@ -1,4 +1,6 @@
 \documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,array}
 \usepackage[hidelinks]{hyperref}
@@ -10,21 +12,26 @@
 \newtheorem{remark}[theorem]{Remark}
 \newcommand{\R}{\mathbb R}
 \newcommand{\wind}{\operatorname{wind}}
-\newcommand{\clinf}{C_{\infty}}
 
 \title{A positive-Jacobian noninjective sigmoid ridge map\\and the sharp hidden-width threshold}
-\author{Logan M. Dixon}
-\date{July 2026\quad Draft for independent cold review}
+\author{Logan M. Dixon\thanks{Independent Researcher. Email: \texttt{lmdixon23@gmail.com}. ORCID: 0009-0001-0592-462X.}}
+\date{September 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-The Neural Jacobian Conjecture asks whether an everywhere-positive Jacobian determinant forces global injectivity for affine-ridge logistic maps from $\R^n$ to $\R^n$. We give an exact rational counterexample at the lowest width left open by that conjecture, $n=2$, $N=4$. Its determinant is positive everywhere by a two-bridge arithmetic--geometric-exponential decomposition based on exact affine relations among the logits. Its row-ordered asymptotic octagon has winding number two at an explicit rational target, so the planar degree--winding formula gives exactly two preimages. A block construction lifts the example to every $n\ge2$ at width $N=n+2$, and hidden-unit duplication gives every larger width. Combined with the known positive results at widths $N=n$ and $N=n+1$, this gives the sharp hidden-width threshold. We also prove a closed-form two-bridge determinant criterion, an explicit multiparameter counterexample family with nonzero bias freedom, and an extension to every saturating activation whose derivative is an even log-concave density. An exact computer-assisted chamber classification shows that, in the ordered generic four-generator problem, winding multiplicity at least two with nonnegative spectrum forces the alternating sign pattern realized by the counterexample.
+The Neural Jacobian Conjecture asks whether an everywhere-positive Jacobian determinant forces global injectivity for affine-ridge logistic maps from $\R^n$ to $\R^n$. We give an exact rational counterexample at the smallest pair left open in that formulation, $n=2$, $N=4$. Its determinant is positive everywhere by a two-bridge arithmetic--geometric-exponential decomposition based on exact affine relations among the logits. Two disjoint interval Krawczyk certificates establish noninjectivity directly. Independently, its row-ordered asymptotic octagon has winding number two at an explicit rational target; the companion planar degree--winding theorem then shows that this target has exactly two preimages. A block construction lifts the example to every $n\ge2$ at width $N=n+2$, and hidden-unit duplication gives every larger width. Combined with the companion injectivity theorem at widths $N=n$ and $N=n+1$, this gives the sharp hidden-width threshold. We also prove a closed-form two-bridge determinant criterion, an explicit multiparameter counterexample family with nonzero bias freedom, and an extension to every saturating activation whose derivative is an even log-concave probability density strictly positive on all of $\R$. Finally, an exact computer-assisted classification on the open refined magnitude chambers of the enumerated canonical direction realizations shows that nonnegative winding spectrum with multiplicity at least two can occur only with the alternating determinant-sign pattern realized by the counterexample.
 \end{abstract}
 
+\medskip
+\noindent\textbf{2020 Mathematics Subject Classification.} 26B10 (primary); 55M25, 65G20, 68T07, 15A15.
+
+\smallskip
+\noindent\textbf{Keywords.} global injectivity; sigmoid ridge network; Neural Jacobian Conjecture; Krawczyk operator; winding number; validated numerics.
+
 \section{Main results}
-The Neural Jacobian Conjecture was formulated by Chen and Jiang~\cite{ChenJiang}.  Let $\sigma(t)=(1+e^{-t})^{-1}$ act componentwise.
+The Neural Jacobian Conjecture was formulated by Chen and Jiang~\cite{ChenJiang}. Their work proves the case $N=n+1$ and leaves the higher-width regime $N\ge n+2$ unresolved. Let $\sigma(t)=(1+e^{-t})^{-1}$ act componentwise.
 
 \begin{theorem}[Planar four-ridge counterexample]\label{thm:main}
 Set
@@ -52,10 +59,10 @@ one has $\#F^{-1}(y)=2$.
 \end{theorem}
 
 \begin{corollary}[Sharp hidden-width threshold]\label{cor:sharp}
-For every $n\ge2$ and every $N\ge n+2$, there is a width-$N$ affine-ridge logistic map $G:\R^n\to\R^n$ with $\det DG>0$ everywhere that is not injective. Together with the injectivity theorems at $N=n$ and $N=n+1$~\cite[Thm.~3.2]{DixonPolygon}, this is sharp.  Those two widths are settled by a graph-coordinate reduction in which the determinant is affine in a single varying slot; the present counterexample shows the reduction has no analogue at $N=n+2$. For $n=1$, positivity of the derivative implies injectivity at every width.
+For every $n\ge2$ and every $N\ge n+2$, there is a width-$N$ affine-ridge logistic map $G:\R^n\to\R^n$ with $\det DG>0$ everywhere that is not injective. For $N<n$, a nonsingular Jacobian is impossible by rank, while at $N=n$ and $N=n+1$ every such map is injective~\cite[Thm.~3.2]{DixonPolygon}. Thus $N=n+2$ is the sharp onset of counterexamples. The two closed widths are settled by a graph-coordinate reduction in which the determinant is affine in a single varying slot; the present counterexample shows that the resulting injectivity conclusion fails at $N=n+2$. For $n=1$, positivity of the derivative implies injectivity at every width.
 \end{corollary}
 
-The proof has two independent components. Sections~\ref{sec:age}--\ref{sec:det} prove pointwise determinant positivity. Section~\ref{sec:winding} computes the asymptotic winding and invokes the planar degree--winding formula from the companion asymptotic-polygon work~\cite{DixonPolygon}.
+The proof separates three logically distinct claims. Sections~\ref{sec:age}--\ref{sec:det} prove pointwise determinant positivity. Proposition~\ref{prop:krawczyk} certifies two distinct preimages directly, so the conjecture refutation does not depend on the companion paper. The companion asymptotic-polygon results~\cite{DixonPolygon} are used to upgrade those two preimages to exact global multiplicity two and, through the closed-width theorem at $N=n$ and $N=n+1$, to obtain sharpness.
 
 \section{Bridge AGE inequalities}\label{sec:age}
 The determinant argument applies to a broad derivative class.
@@ -233,24 +240,7 @@ The target $y=(-11/2,1/10)$ is not on an edge. Exact rational ray crossing gives
 \[
  \wind(\gamma,y)=2.
 \]
-The companion degree--winding theorem states, for continuously saturating planar ridge maps with pairwise nonparallel rows and nonvanishing Jacobian,
-\[
- \#F^{-1}(y)=\operatorname{sgn}(\det DF)\wind(\gamma,y)
-\]
-for $y$ off the asymptotic loop~\cite{DixonPolygon}. It also yields the necessary-and-sufficient planar criterion that such a map is injective exactly when its signed winding values off the loop belong to $\{0,1\}$; in generic transverse position this is equivalent to simplicity of the asymptotic polygon. All hypotheses have been established, and the orientation is positive, so $\#F^{-1}(y)=2$. This proves Theorem~\ref{thm:main}.
-
-\begin{remark}
-Numerical solutions are approximately
-\[
- (-0.56521578,3.11351292),\qquad
- (25.17547641,7.45168466),
-\]
-and Proposition~\ref{prop:krawczyk} certifies them.
-\end{remark}
-
-The degree--winding route above counts preimages globally.  The following
-independent certificate exhibits two of them directly, so that the refutation
-does not rest on the companion boundary-loop lemma.
+The following validated certificate already proves noninjectivity, without using the companion degree--winding theorem.
 
 \begin{proposition}[Two certified preimages]\label{prop:krawczyk}
 Let
@@ -260,35 +250,26 @@ Let
    x_2&=(25.1754764056295704,\ 7.4516846575961514),
  \end{aligned}
 \]
-and let $X_i$ be the closed interval box of radius $10^{-10}$ about $x_i$ in
-each coordinate.  Then $X_1$ and $X_2$ are disjoint and each contains exactly
-one solution of $F(x)=y$.  Consequently $F$ is not injective.
+and let $X_i$ be the closed interval box of radius $10^{-10}$ about $x_i$ in each coordinate. Then $X_1$ and $X_2$ are disjoint and each contains exactly one solution of $F(x)=y$. Consequently $F$ is not injective.
 \end{proposition}
 
 \begin{proof}
-For a box $X$ with midpoint $m$ and $C=DF(m)^{-1}$, the interval Krawczyk
-operator is
+Put $G(x)=F(x)-y$. For a box $X$ with midpoint $m$ and a nonsingular preconditioner $C$, the Krawczyk operator is
 \[
- K(X)=m-C\,F(m)+\bigl(I-C\,DF(X)\bigr)(X-m),
+ K_G(X)=m-C\,G(m)+\bigl(I-C\,DG(X)\bigr)(X-m).
 \]
-where $DF(X)$ is an interval enclosure of the Jacobian over $X$.  If
-$K(X)\subseteq\operatorname{int}X$ then $F-y$ has exactly one zero in $X$.
-The enclosure is evaluated in ball arithmetic at $100$ decimal digits; the
-residuals $\lVert F(m)-y\rVert$ are below $2\times10^{-54}$ at both centres,
-the centre Jacobian determinants are approximately $5.5264\times10^{-3}$ and
-$6.4604\times10^{-4}$, both nonzero, and $K(X_i)$ lies strictly inside $X_i$
-coordinatewise for $i=1,2$.  The boxes are separated by more than $25$ in the
-first coordinate, hence disjoint, so the two roots are distinct.  Positivity of
-$\det DF$ is Section~\ref{sec:det} and is not used here beyond confirming that
-$DF(m)$ is invertible.
+The standard Krawczyk inclusion test $K_G(X)\subseteq\operatorname{int}X$ certifies a unique zero of $G$ in $X$~\cite[Ch.~8]{MooreInterval}. The maintained certificate evaluates the inclusion with outward-rounded Arb ball arithmetic at 256-bit precision. Using the exact terminating decimals displayed above as the box centres, the two infinity-norm residuals are below $3.1\times10^{-17}$, the centre Jacobian determinants are approximately $5.5264\times10^{-3}$ and $6.4604\times10^{-4}$, and the Krawczyk images lie strictly inside the corresponding boxes coordinatewise. The boxes are separated by more than $25$ in the first coordinate, hence are disjoint.
 \end{proof}
 
 \begin{remark}
-This certificate is independent of the asymptotic geometry: it uses only the
-matrices of Theorem~\ref{thm:main}, the target $y$, and outward-rounded
-interval arithmetic.  The winding computation remains the statement that
-explains the count, and supplies the exact global multiplicity.
+This certificate uses only the matrices of Theorem~\ref{thm:main}, the target $y$, and outward-rounded interval arithmetic. It therefore establishes noninjectivity independently of the asymptotic geometry. The winding computation supplies the exact global multiplicity.
 \end{remark}
+
+The companion degree--winding theorem states, for continuously saturating planar ridge maps with pairwise nonparallel rows and nonvanishing Jacobian,
+\[
+ \#F^{-1}(y)=\operatorname{sgn}(\det DF)\wind(\gamma,y)
+\]
+for $y$ off the asymptotic loop~\cite{DixonPolygon}. All hypotheses have been established, and the orientation is positive, so $\#F^{-1}(y)=2$. Thus the two certified roots are the only roots of $F(x)=y$, completing Theorem~\ref{thm:main}.
 
 \section{An explicit multiparameter counterexample family}\label{sec:family}
 The counterexample belongs to a transparent region rather than merely a small certified ball.
@@ -354,13 +335,13 @@ On the stated rectangle,
  \qquad
  \frac{\partial}{\partial t}\log R_2<0.
 \]
-Thus the minimum occurs at $(u,t)=(199/100,13/100)$. Raising to the hundredth power gives an exact integer comparison showing this minimum exceeds $20/19$. Since $e^{1/20}<20/19$, the second bridge remains strict under $|\delta_2|<1/20$.
+Thus the infimum on the open rectangle is the value at the closure corner $(u,t)=(199/100,13/100)$. Raising to the hundredth power gives an exact integer comparison showing this lower bound exceeds $20/19$. Since $e^{1/20}<20/19$, the second bridge remains strict under $|\delta_2|<1/20$.
 
 The asymptotic polygon is independent of $c$. Target-edge incidence in the moving $(u,t)$ family occurs, in the relevant component, on the lines
 \[
  t=\frac1{10},\qquad u=15t,\qquad u=\frac52.
 \]
-The parameter rectangle lies strictly in the component containing $(2,1/8)$, so the target winding remains two. The degree--winding formula finishes the proof.
+The parameter rectangle lies strictly in the component containing $(2,1/8)$, so the target winding remains two. The companion degree--winding formula~\cite{DixonPolygon} then gives exactly two preimages and finishes the proof.
 \end{proof}
 
 \begin{remark}
@@ -377,7 +358,7 @@ This is a one-hidden-layer affine-ridge network of width $4+(n-2)=n+2$. Its Jaco
 \[
  \det DG_n(x)=\det DF(x_1,x_2)\prod_{k=3}^n\sigma'(x_k)>0.
 \]
-It is noninjective because the two planar preimages can be augmented with identical remaining coordinates. For $N>n+2$, duplicate a hidden row and split its output column into nonzero summands; the represented function and Jacobian are unchanged.  The duplicated rows are parallel, so the standing nondegeneracy hypothesis of the polygon and degree results no longer holds; neither is reapplied after duplication, and positivity and noninjectivity transfer because the function itself is unchanged. This proves Corollary~\ref{cor:sharp}.
+It is noninjective because the two planar preimages can be augmented with identical remaining coordinates. For $N>n+2$, repeatedly duplicate a hidden unit with nonzero output column $a$ and replace that column by two copies $a/2,a/2$ attached to identical rows and biases. The represented function and Jacobian are unchanged. The duplicated rows are parallel, so the standing nondegeneracy hypothesis of the polygon and degree results no longer holds; neither is reapplied after duplication, and positivity and noninjectivity transfer because the function itself is unchanged. This proves Corollary~\ref{cor:sharp}.
 
 \section{Symmetric log-concave activation class}\label{sec:activation}
 The logistic formula is not essential.
@@ -391,19 +372,19 @@ Then the matrices in Theorem~\ref{thm:main}, with $\sigma$ replaced by $f$, defi
 \end{corollary}
 
 \begin{proof}
-The derivative $f'=q$ satisfies Lemma~\ref{lem:age}. The asymptotic polygon and its winding use only continuity, strict monotonicity, and saturation to zero and one. The determinant and degree arguments are therefore unchanged.
+The derivative $f'=q$ satisfies Lemma~\ref{lem:age}. The asymptotic polygon and its winding use only continuity, strict monotonicity, and saturation to zero and one. The determinant argument is therefore unchanged, and the companion degree--winding theorem~\cite{DixonPolygon} applies with the same asymptotic loop and target, giving exactly two preimages.
 \end{proof}
 
 This includes the logistic sigmoid, $(1+\tanh t)/2$, the Gaussian distribution function, and the normalized generalized Gaussian family with density proportional to $e^{-|t|^p}$ for $p\ge1$.
 
 \section{Alternating-sign chamber classification}\label{sec:classification}
-The explicit counterexample is sufficient to refute the conjecture. The following exact classification explains why its two negative pairs are structurally canonical.
+The explicit counterexample is sufficient to refute the conjecture. The following exact classification places its two negative pairs within the canonical direction realizations enumerated by the certificate.
 
 Fix an ordered generic four-generator centrally symmetric octagon with edge sequence
 \[
  g_0,g_1,g_2,g_3,-g_0,-g_1,-g_2,-g_3.
 \]
-Write $g_i=\lambda_i d_i$ with fixed pairwise nonparallel directions and $\lambda_i>0$.
+Write $g_i=\lambda_i d_i$ with fixed pairwise nonparallel directions and $\lambda_i>0$. Here generic magnitudes mean that $\lambda$ lies off every nonzero $L$ and $K$ wall in Proposition~\ref{prop:chambers}; the classification below is restricted to these open refined chambers.
 
 \begin{proposition}[Refined magnitude chambers]\label{prop:chambers}
 For fixed directed edge directions, there is a finite central hyperplane arrangement in positive magnitude space such that, on each open chamber, the crossing set, the order of crossings along every edge, polygon simplicity, and the winding spectrum are constant.
@@ -413,8 +394,8 @@ For fixed directed edge directions, there is a finite central hyperplane arrange
 Every vertex is homogeneous linear in $\lambda$. Edge--vertex orientation predicates are signs of homogeneous linear forms $L_{rs}(\lambda)$. If two nonparallel comparison edges meet the line of edge $r$ at parameters $t_{rs}$ and $t_{rt}$, the numerator of $t_{rs}-t_{rt}$ is another homogeneous linear form $K_{r;s,t}(\lambda)$. Add all nonzero $L$ and $K$ walls. Within an open chamber, no vertex crosses a nonincident edge and no intersection points exchange order along an edge. The induced planar immersion is isotopic, so its face winding data are constant.
 \end{proof}
 
-\begin{theorem}[Exact four-generator alternating classification]\label{thm:classification}
-Fix the canonical direction realization of each labeled uniform rank-two chirotope used by the certificate below.  In the chosen edge order and positive orientation, suppose the winding spectrum is nonnegative and contains a value at least two. Then the six generator determinant signs, in pair order
+\begin{theorem}[Canonical-realization alternating classification]\label{thm:classification}
+Fix the canonical direction realization of each labeled uniform rank-two chirotope used by the certificate below, and restrict $\lambda$ to an open chamber of its refined magnitude arrangement. In the chosen edge order and positive orientation, suppose the winding spectrum is nonnegative and contains a value at least two. Then the six generator determinant signs, in pair order
 \[
  01,02,03,12,13,23,
 \]
@@ -429,67 +410,16 @@ The certificate enumerates all $48$ labeled uniform realizable rank-two chirotop
 \end{proof}
 
 \begin{remark}
-The classification is not load-bearing for Theorem~\ref{thm:main}. It is included to identify the unique generic sign type that can support nonnegative winding multiplicity two in the ordered problem.  The quantifier is over the enumerated canonical realizations rather than over every generic realization: four generic directions in $\mathbb{RP}^1$ retain a one-dimensional modulus modulo $\mathrm{PGL}(2,\R)$, since that group is sharply $3$-transitive, and the winding spectrum is not a chirotope invariant --- positive rescaling can preserve every pairwise determinant sign while changing a simple loop into a self-intersecting one~\cite[Prop.~6.6]{DixonPolygon}. Extending the statement to all realizations would require adding that modulus to the exact decomposition. The full rational certificate and replay are supplied separately.
+The classification is not load-bearing for Theorem~\ref{thm:main}. Within their open refined magnitude chambers, the enumerated canonical realizations identify the only determinant-sign pattern that can support nonnegative winding multiplicity at least two. The quantifier does not extend to every generic realization: four generic directions in $\mathbb{RP}^1$ retain a one-dimensional modulus modulo $\mathrm{PGL}(2,\R)$, since that group is sharply $3$-transitive, and the winding spectrum is not a chirotope invariant --- positive rescaling can preserve every pairwise determinant sign while changing a simple loop into a self-intersecting one~\cite[Prop.~7.5]{DixonPolygon}. Extending the statement to all realizations would require adding that modulus to the exact decomposition. The full rational certificate and replay are supplied separately.
 \end{remark}
 
-\section{Higher-dimensional boundary framework}\label{sec:higher}
-The block lift resolves higher-dimensional existence without a boundary theory. A complementary geometric criterion is nevertheless available.
+\section{Verification and reproducibility}
+The accompanying repository contains exact rational checks of the minors, Pl\"ucker relation, row circuits, coefficient inequalities, wall order, polygon vertices, target exclusion, winding number, the multiparameter family, the dimension lift, and the finite chamber classification. The two preimage boxes are certified by outward-rounded Arb arithmetic. A separate internal SymPy reconstruction rebuilds the central matrices, row relations, wall order, vertices, and winding with a separately written implementation; it is corroborating evidence rather than an external review.
 
-\begin{theorem}[Cluster-sphere inversion]\label{thm:sphere}
-Let $H:\R^n\to\R^n$ be a bounded local homeomorphism whose cluster set at infinity is contained in a locally flat embedded sphere $\Gamma\cong S^{n-1}$. Then $H$ is a homeomorphism onto the bounded component of $\R^n\setminus\Gamma$. If $H$ is $C^1$ with nonsingular derivative, it is a global $C^1$ diffeomorphism.
-\end{theorem}
-
-\begin{proof}
-For compact sets disjoint from $\Gamma$, preimages are compact by the escaping-sequence definition of the cluster set. This relative properness excludes the unbounded complementary component and the separator, and makes the image open and closed in the bounded component. Hence the restriction is a proper surjective local homeomorphism, and a proper local homeomorphism onto a locally compact, locally connected Hausdorff space is a covering map~\cite{HoProper}. Generalized Schoenflies identifies the bounded component with an open ball~\cite{BrownSchoenflies}; connectedness of $\R^n$ forces one sheet.
-\end{proof}
-
-\begin{theorem}[Ridge cluster-cell equality]\label{thm:cell}
-Let
-\[
- H(x)=A f(Bx+c):\R^n\to\R^n,
-\]
-where $f:\R\to(0,1)$ is continuous, strictly increasing, and saturating. Assume the central row arrangement of $B$ is essential and simple. Let $\mathcal D(B)$ be the dual cubical cell sphere. For a spherical arrangement face with zero set $J$ and positive-sign set $S$, define
-\[
- \Phi_{S,J}(t)=\sum_{i\in S}a_i+\sum_{j\in J}t_j a_j,
- \qquad t\in[0,1]^J.
-\]
-These cell maps glue to a continuous piecewise-linear map $\Phi_{A,B}:\mathcal D(B)\to\R^n$, and
-\[
- \clinf(H)=\Phi_{A,B}(\mathcal D(B)).
-\]
-\end{theorem}
-
-\begin{proof}
-For an escaping sequence, pass to a limiting direction. Rows with nonzero directional evaluation saturate, while rows in the zero set contribute limiting coordinates in $[0,1]$, proving one inclusion. Conversely, fix a face direction $u$, zero set $J$, and $t\in(0,1)^J$. Put $\tau_j=f^{-1}(t_j)$. Simplicity makes the rows $B_J$ independent, so choose $v$ with $B_Jv=\tau-c_J$. Then $x_R=Ru+v$ fixes the wall logits at $\tau$ and sends every other logit to its prescribed signed infinity. Thus $H(x_R)\to\Phi_{S,J}(t)$. Boundary points follow by closure, and the face identifications give the gluing.
-\end{proof}
-
-\begin{proposition}[Finite dual-cell embedding test]\label{prop:cell-test}
-Assume every cell restriction of $\Phi_{A,B}$ has full affine rank, and for every two closed cells $C,D$ of $\mathcal D(B)$,
-\[
- \Phi_{A,B}(C)\cap\Phi_{A,B}(D)=\Phi_{A,B}(C\cap D).
-\]
-Then $\Phi_{A,B}$ is a piecewise-linear embedding. If its finite vertex-link pairs are locally flat, its image is a locally flat embedded sphere. The rank and pairwise-intersection conditions reduce to finitely many exact linear-algebra and polytope-feasibility checks.
-\end{proposition}
-
-\begin{proof}
-The intersection condition makes the map globally one-to-one after the cellwise full-rank checks. A continuous injection from the compact cell sphere into the Hausdorff space $\R^n$ is an embedding. Local flatness is local and is decided by the finitely many links in the chosen subdivision.
-\end{proof}
-
-\begin{corollary}[Dual-cell embedding criterion]\label{cor:cell}
-Under Theorem~\ref{thm:cell}, if the conditions of Proposition~\ref{prop:cell-test} and its local-link clause hold and $DH$ is nonsingular everywhere, then $H$ is a global diffeomorphism onto the bounded component enclosed by its asymptotic cell sphere.
-\end{corollary}
-
-This gives a finite certificate architecture for the higher-dimensional boundary problem. A practical general-purpose implementation and complexity analysis remain open. The framework is not needed for the sharp counterexample threshold.
-
-\section{Verification status and evidence boundaries}
-The repository contains exact rational checks of the minors, Pl\"ucker relation, row circuits, coefficient inequalities, wall order, polygon vertices, target exclusion, winding number, the multiparameter family, the dimension lift, and the finite chamber classification. A separately written SymPy implementation reconstructs the central counterexample using independent matrix, wall-order, and winding code. Numerical root finding supplies non-load-bearing corroboration of the two preimages.
-
-The finite chamber theorem is computer assisted. Its completeness claim depends on the exact Gordan-circuit enumeration and should be reviewed separately from the explicit counterexample. The central conjecture refutation depends only on the exact determinant argument, the exact winding computation, and the degree--winding theorem from the companion paper.
-
-The project remains marked as a draft because all present implementations and proof reconstructions were produced within one coordinated workflow. External specialist review and a genuinely third-party reconstruction remain submission gates.
+The finite chamber theorem is computer assisted. Its completeness claim depends on the exact Gordan-circuit enumeration and is logically separate from the counterexample. The conjecture refutation itself uses the analytic determinant proof together with Proposition~\ref{prop:krawczyk}. The companion degree--winding theorem is needed for the stronger exact-multiplicity statement, and the companion closed-width theorem is additionally needed for the sharp-threshold corollary. Numerical root finding is retained only as a diagnostic and is not used as proof evidence.
 
 \section{Conclusion}
-An everywhere-positive Jacobian does not force injectivity for sigmoid ridge networks once the hidden width reaches $n+2$. The obstruction already occurs at $n=2$, $N=4$, where a two-bridge analytic certificate keeps the local orientation positive while an asymptotic octagon carries winding multiplicity two. The resulting sharp threshold separates the two lowest nonvacuous widths from every larger width. The mechanism persists on a transparent multiparameter region and across all symmetric log-concave saturating activations. The chamber classification identifies the alternating two-negative sign pattern as the unique ordered generic four-generator type supporting nonnegative winding multiplicity at least two.
+An everywhere-positive Jacobian does not force injectivity for sigmoid ridge networks once the hidden width reaches $n+2$. The obstruction already occurs at $n=2$, $N=4$: a two-bridge analytic certificate keeps the local orientation positive while two disjoint Krawczyk boxes rigorously certify a collision. The companion degree--winding theorem shows that the same target has exactly two preimages, and its closed-width theorem turns the construction into a sharp threshold separating $N\le n+1$ from $N\ge n+2$ for $n\ge2$. The mechanism persists on a transparent multiparameter region and across all saturating activations whose derivative is an even log-concave probability density strictly positive on all of $\R$. On the open refined magnitude chambers of the enumerated canonical direction realizations, the classification singles out the alternating two-negative determinant-sign pattern as the only one supporting a nonnegative winding spectrum with multiplicity at least two.
 
 \begin{thebibliography}{99}
 \bibitem{ChenJiang}
@@ -502,6 +432,11 @@ L. M. Dixon,
 \emph{Asymptotic-polygon global inversion for planar saturating ridge networks and an injective neural--Jacobian separation witness},
 preprint, 2026.
 
+\bibitem{MooreInterval}
+R. E. Moore, R. B. Kearfott, and M. J. Cloud,
+\emph{Introduction to Interval Analysis},
+SIAM, Philadelphia, 2009.
+
 \bibitem{ChandrasekaranShah}
 V. Chandrasekaran and P. Shah,
 \emph{Relative Entropy Relaxations for Signomial Optimization},
@@ -512,15 +447,6 @@ R. Murray, V. Chandrasekaran, and A. Wierman,
 \emph{Newton Polytopes and Relative Entropy Optimization},
 Foundations of Computational Mathematics 21 (2021), 1703--1737.
 
-\bibitem{BrownSchoenflies}
-M. Brown,
-\emph{A proof of the generalized Schoenflies theorem},
-Bulletin of the American Mathematical Society 66 (1960), 74--76.
-
-\bibitem{HoProper}
-C.-W. Ho,
-\emph{A note on proper maps},
-Proceedings of the American Mathematical Society 51 (1975), 237--241.
 \end{thebibliography}
 
 \end{document}

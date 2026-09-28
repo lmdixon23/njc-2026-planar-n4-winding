@@ -1,15 +1,17 @@
 # Paper III manuscript
 
-`main.tex` is the extended focal manuscript. It compiles to `main.pdf` and currently contains:
+`main.tex` is the focused Winding Resolution manuscript. It compiles to
+`main.pdf` and contains:
 
-1. the exact planar counterexample;
-2. the two-bridge determinant theorem;
-3. the exact winding and multiplicity argument;
-4. the explicit multiparameter family;
-5. the sharp all-dimensional width threshold;
-6. the symmetric log-concave activation class;
-7. the exact alternating-sign chamber theorem;
-8. the higher-dimensional cluster-cell framework;
-9. explicit evidence boundaries.
+1. the exact planar positive-Jacobian counterexample;
+2. the two-bridge determinant criterion and exact positivity proof;
+3. two rigorous Krawczyk preimage certificates plus exact winding/multiplicity;
+4. an explicit multiparameter counterexample family;
+5. the sharp all-dimensional hidden-width threshold;
+6. the symmetric log-concave activation extension;
+7. the exact computer-assisted chamber classification over enumerated canonical direction realizations;
+8. a verification and reproducibility section separating local evidence from companion-paper dependencies.
 
-For the narrowest high-journal submission, Sections 8 and 9 may be moved to appendices or separate companion papers without changing the central conjecture refutation.
+The higher-dimensional cluster-cell framework from the prior draft is intentionally
+omitted from this submission candidate because it is not load-bearing for the
+counterexample or sharp-threshold result.

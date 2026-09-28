@@ -29,21 +29,22 @@ printf '%s\n' '== Tropical exposure classification =='
 "$PY" code/tropical_exposure_classifier.py
 
 printf '%s\n' '== Alternating chamber certificate =='
+"$PY" code/test_classification_contracts.py
 "$PY" code/check_alternating_classification_certificate.py
 
-printf '%s\n' '== Multiparameter counterexample family =='
+printf '%s\n' '== One-parameter counterexample slice =='
 "$PY" code/verify_counterexample_family.py
 
 printf '%s\n' '== Dimension and width lift =='
 "$PY" code/verify_dimension_lift.py
 
-printf '%s\n' '== Broad analytic activation family =='
+printf '%s\n' '== Explicit multiparameter counterexample family =='
 "$PY" code/verify_broad_analytic_family.py
 
 printf '%s\n' '== Certified preimage boxes (interval Krawczyk) =='
-"$PY" code/certify_preimage_boxes.py
+"$PY" code/certify_preimage_boxes.py --check-json results/preimage_boxes.json
 
-printf '%s\n' '== Independent SymPy reconstruction =='
+printf '%s\n' '== Separate internal SymPy reconstruction =='
 "$PY" code/independent_reconstruction_sympy.py
 
 printf '%s\n' '== Final canonical-file integrity =='
